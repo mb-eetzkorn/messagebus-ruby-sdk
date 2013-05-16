@@ -21,7 +21,7 @@ client = MessagebusTemplateClient.new(api_key, api_host)
 
 template_key = "6226821c-3407-430d-8db2-df21405abf28"
 
-session_key = "DEFAULT";
+session_key = "DEFAULT"
 template_params = [
     {"rcpt_email" => "bob@example.com",
      "rcpt_name" => "Bob",
