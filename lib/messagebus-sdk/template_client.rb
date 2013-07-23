@@ -51,29 +51,28 @@ class MessagebusTemplateClient < MessagebusSDK::MessagebusBase
     path = "#{@rest_endpoints[:templates]}"
     make_api_request(path)
   end
-end
 
-private
-def define_rest_endpoints
-  {
-    :template_version => "/api/v4/templates/version",
-    :template => "/api/v4/template/%TEMPLATE_KEY%",
-    :templates => "/api/v4/templates",
-    :templates_send => "/api/v4/templates/email/send"
-  }
-end
+  private
+  def define_rest_endpoints
+    {
+      :template_version => "/api/v4/templates/version",
+      :template => "/api/v4/template/%TEMPLATE_KEY%",
+      :templates => "/api/v4/templates",
+      :templates_send => "/api/v4/templates/email/send"
+    }
+  end
 
-def base_template_params
-  {:toEmail => '',
-   :fromEmail => '',
-   :subject => '',
-   :toName => '',
-   :fromName => '',
-   :returnPath => '',
-   :plaintextBody => '',
-   :htmlBody => '',
-   :sessionKey => DEFAULT,
-   :options => {},
-   :customHeaders => {} }
+  def base_template_params
+    {:toEmail => '',
+     :fromEmail => '',
+     :subject => '',
+     :toName => '',
+     :fromName => '',
+     :returnPath => '',
+     :plaintextBody => '',
+     :htmlBody => '',
+     :sessionKey => DEFAULT,
+     :options => {},
+     :customHeaders => {} }
+  end
 end
-

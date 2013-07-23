@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["support@messagebus.com"]
   s.homepage    = ""
   s.summary     = %q{Message Bus SDK}
-  s.description = %q{SDK for Message Bus platform}
+  s.description = %q{SDK for Message Bus service}
 
   s.rubyforge_project = "messagebus-sdk"
 

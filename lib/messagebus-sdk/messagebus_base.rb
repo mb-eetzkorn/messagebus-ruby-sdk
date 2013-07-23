@@ -67,6 +67,7 @@ module MessagebusSDK
       endpoint_url = URI.parse(target_server)
       @http = Net::HTTP.new(endpoint_url.host, endpoint_url.port)
       @http.use_ssl = true
+      @http.read_timeout = 300
       @http
     end
 

@@ -248,7 +248,6 @@ class MessageBusActionMailerTest < ActionMailer::Base
 
   def new_message(to_email, session_key, bcc = "", x_headers = {})
     headers[MessagebusSDK::MessagebusBase::HEADER_SESSION_KEY] = session_key
-
     x_headers.each do |key, value|
       headers[key] = value
     end
