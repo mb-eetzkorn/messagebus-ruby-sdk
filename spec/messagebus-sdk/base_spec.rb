@@ -30,9 +30,9 @@ describe MessagebusSDK::MessagebusBase do
 
   describe "messagebus base object set up correctly" do
     it "has correct headers and accepts a custom endpoint" do
-      test_endpoint = 'https://testapi-v4.messagebus.com/api/v4'
+      test_endpoint = 'https://testapi.messagebus.com/v5'
       client = MessagebusSDK::MessagebusBase.new(@api_key, test_endpoint)
-      client.instance_eval('@http').address.should == "testapi-v4.messagebus.com"
+      client.instance_eval('@http').address.should == "testapi.messagebus.com"
     end
   end
 
@@ -140,7 +140,7 @@ describe MessagebusSDK::MessagebusBase do
 
   describe "#version" do
     it "retrieves the current version of the API" do
-      FakeWeb.register_uri(:get, "https://api-v4.messagebus.com/api/version", :body => json_api_version_results)
+      FakeWeb.register_uri(:get, "https://api.messagebus.com/api/version", :body => json_api_version_results)
       client = MessagebusSDK::MessagebusBase.new(@api_key)
       version = client.api_version
 

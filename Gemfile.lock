@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    messagebus-sdk (4.1.1)
+    messagebus-sdk (5.0.0)
 
 GEM
   remote: http://rubygems.org/

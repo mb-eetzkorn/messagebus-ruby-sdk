@@ -32,7 +32,7 @@ describe MessagebusApiClient do
 
   describe "#send_messages" do
     it "should have user-agent and x-messagebus-key set in request headers" do
-      FakeWeb.register_uri(:post, "#{API_URL}/message/email/send", :body => json_valid_send)
+      FakeWeb.register_uri(:post, "#{API_URL}/messages/send", :body => json_valid_send)
       client.send_messages(default_message_params)
 
       FakeWeb.last_request.get_fields("X-MessageBus-Key").should_not be_nil
@@ -41,7 +41,7 @@ describe MessagebusApiClient do
     end
 
     it "sends messages" do
-      FakeWeb.register_uri(:post, "#{API_URL}/message/email/send", :body => json_valid_send)
+      FakeWeb.register_uri(:post, "#{API_URL}/messages/send", :body => json_valid_send)
       results = client.send_messages(default_message_params)
       results[:results].size.should == 1
     end
@@ -55,7 +55,7 @@ describe MessagebusApiClient do
     it "doesnt reset connection if under a minute old" do
       current_init_time=@http_client.last_init_time
       current_init_time.should be > Time.now.utc-5
-      FakeWeb.register_uri(:post, "#{API_URL}/message/email/send", :body => json_valid_send)
+      FakeWeb.register_uri(:post, "#{API_URL}/messages/send", :body => json_valid_send)
       results = @http_client.send_messages(default_message_params)
       results[:results].size.should == 1
       @http_client.last_init_time.should == current_init_time
@@ -65,7 +65,7 @@ describe MessagebusApiClient do
       @http_client.last_init_time=Time.now.utc-60
       current_init_time=@http_client.last_init_time
       current_init_time.should be < Time.now.utc-59
-      FakeWeb.register_uri(:post, "#{API_URL}/message/email/send", :body => json_valid_send)
+      FakeWeb.register_uri(:post, "#{API_URL}/messages/send", :body => json_valid_send)
       results = @http_client.send_messages(default_message_params)
       results[:results].size.should == 1
       @http_client.last_init_time.should be > current_init_time

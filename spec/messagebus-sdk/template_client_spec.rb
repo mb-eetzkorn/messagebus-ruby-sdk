@@ -9,7 +9,7 @@ describe MessagebusTemplateClient do
   before do
     FakeWeb.allow_net_connect = false
     @api_key = "7215ee9c7d9dc229d2921a40e899ec5f"
-    @api_endpoint = "https://templates-v4-jy01-prod.messagebus.com"
+    @api_endpoint = "https://templates.messagebus.com"
     @client = MessagebusTemplateClient.new(@api_key)
 
     @test_template = {
@@ -29,7 +29,7 @@ describe MessagebusTemplateClient do
 
   describe "templates" do
     it "#template_version" do
-        FakeWeb.register_uri(:get, "#{@api_endpoint}/api/v4/templates/version", :body => json_template_version_results)
+        FakeWeb.register_uri(:get, "#{@api_endpoint}/v5/templates/version", :body => json_template_version_results)
         result = @client.template_version
 
         result[:statusCode].should == 200
@@ -38,7 +38,7 @@ describe MessagebusTemplateClient do
     end
 
     it "#create_template" do
-      FakeWeb.register_uri(:post, "#{@api_endpoint}/api/v4/templates", :body => json_template_create)
+      FakeWeb.register_uri(:post, "#{@api_endpoint}/v5/templates", :body => json_template_create)
 
 
       result = @client.create_template(@test_template)
@@ -52,7 +52,7 @@ describe MessagebusTemplateClient do
     it "#get_template" do
       template_key = "33ffafac-b15e-4146-b046-14ed897c522b"
 
-      FakeWeb.register_uri(:get, "#{@api_endpoint}/api/v4/template/#{template_key}", :body => json_template_get)
+      FakeWeb.register_uri(:get, "#{@api_endpoint}/v5/template/#{template_key}", :body => json_template_get)
 
       result = @client.get_template(template_key)
 
@@ -66,7 +66,7 @@ describe MessagebusTemplateClient do
 
     it "#templates" do
       # list templates available
-      FakeWeb.register_uri(:get, "#{@api_endpoint}/api/v4/templates", :body => json_templates_get)
+      FakeWeb.register_uri(:get, "#{@api_endpoint}/v5/templates", :body => json_templates_get)
 
       result = @client.templates
 
@@ -93,7 +93,7 @@ describe MessagebusTemplateClient do
       end
 
       it "#send_messages with batch size 25" do
-        FakeWeb.register_uri(:post, "#{@api_endpoint}/api/v4/templates/email/send", :body => json_templates_email_send)
+        FakeWeb.register_uri(:post, "#{@api_endpoint}/v5/templates/email/send", :body => json_templates_email_send)
 
         template_messages = []
         (1..25).each do |i|
@@ -105,7 +105,7 @@ describe MessagebusTemplateClient do
       end
 
       it "#send_messages with batch size 0" do
-        FakeWeb.register_uri(:post, "#{@api_endpoint}/api/v4/templates/email/send", :body => json_templates_email_send_empty)
+        FakeWeb.register_uri(:post, "#{@api_endpoint}/v5/templates/email/send", :body => json_templates_email_send_empty)
 
         template_messages = []
         result = @client.send_messages(@template_key, template_messages)
@@ -113,7 +113,7 @@ describe MessagebusTemplateClient do
       end
 
       it "#send_messages with batch size 26" do
-        FakeWeb.register_uri(:post, "#{@api_endpoint}/api/v4/templates/email/send", :body => json_templates_email_send)
+        FakeWeb.register_uri(:post, "#{@api_endpoint}/v5/templates/email/send", :body => json_templates_email_send)
 
         template_messages = []
         (1..26).each do |i|

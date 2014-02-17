@@ -1,4 +1,4 @@
-# Copyright 2012 Mail Bypass, Inc.
+# Copyright 2014 Message Bus
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -13,7 +13,7 @@
 # under the License.
 
 module MessagebusSDK
-  VERSION = "4.1.1"
+  VERSION = "5.0.0"
 
   class Info
     @@ClientVersion = MessagebusSDK::VERSION

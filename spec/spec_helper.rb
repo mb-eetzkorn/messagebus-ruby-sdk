@@ -1,4 +1,4 @@
-# Copyright 2013 Message Bus, Inc.
+# Copyright 2014 Message Bus
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -26,7 +26,7 @@ require 'api_client'
 require 'actionmailer_client'
 require 'messagebus_errors'
 
-API_URL = 'https://api-v4.messagebus.com/api/v4'
+API_URL = 'https://api.messagebus.com/v5'
 
 def json_parse(data)
   JSON.parse(data, :symbolize_names => true)
@@ -229,6 +229,161 @@ JAVASCRIPT
   json
 end
 
+def json_webhooks
+  json = <<JAVASCRIPT
+{
+"statusCode":200,
+"statusMessage":"OK",
+"statusTime":"2014-01-22T23:12:45.768Z",
+"webhooks":[
+    {"enabled":true,
+     "eventType":"recipient.block",
+     "uri":"http://webhook.messagebus.com/events/block",
+     "webhookKey":"902e4a3d-24a0-470f-bbde-58f81fc04b79",
+     "lastUpdated":"2014-01-22T23:31:42Z",
+     "dateCreated":"2014-01-22T23:31:42Z",
+     "batching":{
+        "batchingEnabled":true,
+        "batchTimeSeconds":30,
+        "maxBatchSize":500}
+    },
+    {"enabled":true,
+     "eventType":"message.attempt",
+     "uri":"http://webhook.messagebus.com/events/attempt",
+     "webhookKey":"9b4309e1-0551-4c7a-ab0b-4b69f977201f",
+     "lastUpdated":"2014-01-22T23:31:35Z",
+     "dateCreated":"2014-01-22T23:31:35Z",
+     "batching":{
+        "batchingEnabled":true,
+        "batchTimeSeconds":30,
+        "maxBatchSize":500
+     },
+     "channelKey":"DDCEFC35298644A998606CAB10F38501"
+    }
+]
+}
+JAVASCRIPT
+  json
+end
+
+def json_webhook
+  json = <<JAVASCRIPT
+{
+"statusCode":200,
+"statusMessage":"OK",
+"statusTime":"2014-01-22T23:12:45.768Z",
+"webhook":
+    {"enabled":true,
+     "eventType":"recipient.complaint",
+     "uri":"http://webhook.messagebus.com/messagebus/v5/recipient-complaint",
+     "webhookKey":"43980222-6bef-46aa-8644-d6b7e0b8c98a",
+     "lastUpdated":"2014-01-22T22:29:59Z",
+     "dateCreated":"2014-01-22T21:32:17Z",
+     "batching":
+        {"batchingEnabled":true,
+         "batchTimeSeconds":30,
+         "maxBatchSize":500
+        },
+     "channelKey":"DDCEFC35298644A998606CAB10F38501"
+    }
+}
+JAVASCRIPT
+  json
+end
+
+def json_webhook_no_channel
+  json = <<JAVASCRIPT
+{
+"statusCode":200,
+"statusMessage":"OK",
+"statusTime":"2014-01-22T23:12:45.768Z",
+"webhook":
+    {"enabled":true,
+     "eventType":"recipient.complaint",
+     "uri":"http://webhook.messagebus.com/messagebus/v5/recipient-complaint",
+     "webhookKey":"43980222-6bef-46aa-8644-d6b7e0b8c98a",
+     "lastUpdated":"2014-01-22T22:29:59Z",
+     "dateCreated":"2014-01-22T21:32:17Z",
+     "batching":
+        {"batchingEnabled":true,
+         "batchTimeSeconds":30,
+         "maxBatchSize":500
+        }
+    }
+}
+JAVASCRIPT
+  json
+end
+
+def json_webhook_create
+  json = <<JAVASCRIPT
+{
+"statusCode":201,
+"statusMessage":"Webhook created.",
+"statusTime":"2014-01-24T23:35:45.083Z",
+"webhookKey":"8d77789a13144923ba7b38b8ffff0f6c"
+}
+JAVASCRIPT
+  json
+end
+
+def json_webhook_update
+  json = <<JAVASCRIPT
+{
+"statusCode":200,
+"statusMessage":"OK",
+"statusTime":"2014-01-24T23:29:03.483Z"
+}
+JAVASCRIPT
+  json
+end
+
+def json_webhook_delete
+  json = <<JAVASCRIPT
+{
+"statusCode":200,
+"statusMessage":"Webhook deleted.",
+"statusTime":"2014-01-24T23:31:05.546Z"
+}
+JAVASCRIPT
+  json
+end
+
+
+def json_report_request_response201
+  json = <<JAVASCRIPT
+{"statusCode":201,"statusMessage":"Report request received.","statusTime":"1971-01-01T00:00:00.000Z","reportKey":"e98d2f001da5678b39482efbdf5770dc","reportStatus":"created","reportQuota":50,"reportQuotaRemaining":49}
+JAVASCRIPT
+  json
+end
+
+def json_report_status_request_response_done200
+  json = <<JAVASCRIPT
+{"statusCode":200,"statusMessage":"Report has completed.","statusTime":"1971-01-01T00:00:00.000Z","reportStatus":"done"}
+JAVASCRIPT
+  json
+end
+
+def json_report_status_request_response_running200
+  json = <<JAVASCRIPT
+{"statusCode":200,"statusMessage":"Report is still running.","statusTime":"1971-01-01T00:00:00.000Z","reportStatus":"running"}
+JAVASCRIPT
+  json
+end
+
+def json_report_status_request_response_no_data200
+  json = <<JAVASCRIPT
+{"statusCode":200,"statusMessage":"Report contains no data.","statusTime":"1971-01-01T00:00:00.000Z","reportStatus":"nodata"}
+JAVASCRIPT
+  json
+end
+
+def json_report_request_data_bounce
+  json = <<JAVASCRIPT
+{"type":"bounce","channelKey":"0000000000ABCDEF0123456789ABCDEF","sessionKey":"1111111111ABCDEF0123456789ABCDEF","email":"bob@hotmail.com","bounceCode":1000,"eventTime":"1971-01-01T23:45:00.000Z","sendTime":"1971-01-01T00:00:00.000Z"}
+JAVASCRIPT
+  json
+end
 
 class MessagebusMailer < MessagebusActionMailerClient
   def initialize(*args)

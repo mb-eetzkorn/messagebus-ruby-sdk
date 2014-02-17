@@ -1,4 +1,4 @@
-# Copyright 2013 Message Bus, Inc.
+# Copyright 2014 Message Bus
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -19,7 +19,7 @@ require 'messagebus-sdk/actionmailer_client'
 class MessagebusMailer < MessagebusActionMailerClient
   def initialize(*args)
     api_key = "12345678934628542E2599F7ED712345"
-    api_endpoint = "https://api-v4.messagebus.com"
+    api_endpoint = "https://api.messagebus.com"
     super(api_key, api_endpoint)
   end
 end

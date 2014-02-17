@@ -12,19 +12,29 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'messagebus-sdk/api_client'
+require 'messagebus-sdk/reports_client'
 
-api_key="12345678934628542E2599F7ED712345"
+#api_key="12345678934628542E2599F7ED712345"
+#api_host="https://api.messagebus.com"
+
+api_key="9CVFCzCSCtQuNJGkUGUnwCz0NwLYeAa2"
 api_host="https://api.messagebus.com"
 
-channel_key = "c485d2ed5cc4ce64fcccca710c7a0bb7"
-session_name = "Session Name"
 
-client = MessagebusApiClient.new(api_key, api_host)
+client = MessagebusReportsClient.new(api_key, api_host)
 
 begin
-  result = client.channel_create_session(channel_key, session_name)
-  puts "Successfully created session #{result[:sessionKey]} with name #{result[:sessionName]}"
+  start_date = (Time.now.utc - (2 * 86400)).strftime("%Y-%m-%dT%H:%M:%SZ")
+  end_date = Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+  response = client.create_stats_report(start_date, end_date)
+  report_key = response[:reportKey]
+
+  response = client.report(report_key)
+
+  # Output to STDOUT
+  puts response
+
 rescue Exception=>e
-  puts "Exception thrown.  Error during session creation: #{e.message}"
+  puts "Exception thrown.  Error during stats report creation: #{e.message}"
 end

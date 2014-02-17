@@ -1,4 +1,4 @@
-# Copyright 2013 Message Bus, Inc.
+# Copyright 2014 Message Bus
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -15,7 +15,7 @@
 require 'messagebus_base'
 
 class MessagebusTemplateClient < MessagebusSDK::MessagebusBase
-  DEFAULT_TEMPLATE_ENDPOINT = 'https://templates-v4-jy01-prod.messagebus.com'
+  DEFAULT_TEMPLATE_ENDPOINT = 'https://templates.messagebus.com'
 
   def initialize(api_key, api_endpoint = DEFAULT_TEMPLATE_ENDPOINT)
     super(api_key, api_endpoint)
@@ -55,10 +55,10 @@ class MessagebusTemplateClient < MessagebusSDK::MessagebusBase
   private
   def define_rest_endpoints
     {
-      :template_version => "/api/v4/templates/version",
-      :template => "/api/v4/template/%TEMPLATE_KEY%",
-      :templates => "/api/v4/templates",
-      :templates_send => "/api/v4/templates/email/send"
+      :template_version => "/v5/templates/version",
+      :template => "/v5/template/%TEMPLATE_KEY%",
+      :templates => "/v5/templates",
+      :templates_send => "/v5/templates/email/send"
     }
   end
 

@@ -1,4 +1,4 @@
-# Copyright 2013 Message Bus, Inc.
+# Copyright 2014 Message Bus
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -20,7 +20,7 @@ require 'messagebus_errors'
 module MessagebusSDK
 
   class MessagebusBase
-    DEFAULT_API_ENDPOINT = 'https://api-v4.messagebus.com'
+    DEFAULT_API_ENDPOINT = 'https://api.messagebus.com'
     DEFAULT = 'DEFAULT'
     HEADER_SESSION_KEY = 'X-MESSAGEBUS-SESSIONKEY'
     SCOPE_ALL = 'all'
@@ -39,6 +39,8 @@ module MessagebusSDK
 
       @results = base_response_params
       @rest_http_errors = define_rest_http_errors
+      @return_json = true
+      @file_handle = nil
     end
 
     def api_version
@@ -108,15 +110,27 @@ module MessagebusSDK
       !address.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i).nil?
     end
 
-    def make_api_request(path, request_type=HTTP_GET, data='')
+    def make_api_request(path, request_type=HTTP_GET, data='', return_json = true, file_name='')
       if (@last_init_time < Time.now.utc - 60)
         init_http_connection(@api_endpoint)
       end
 
+      @return_json = return_json
       headers = common_http_headers
       case request_type
         when HTTP_GET
-          response = @http.request_get(path, headers)
+          if !@return_json && file_name != ''
+            response_file = open(file_name, 'w')
+            @http.request_get(path, headers) do |response|
+              response.read_body do |segment|
+                response_file.write(segment)
+              end
+            end
+            response_file.close
+            return true
+          else
+            response = @http.request_get(path, headers)
+          end
         when HTTP_PUT
           headers = common_http_headers.merge(rest_post_headers)
           response = @http.request_put(path, data, headers)
@@ -130,6 +144,7 @@ module MessagebusSDK
     end
 
     def check_response(response, symbolize_names=true)
+      return response.body if !@return_json
       case response
         when Net::HTTPSuccess
           begin
@@ -181,6 +196,14 @@ module MessagebusSDK
 
     def replace_channel_and_session_key(path, channel_key, session_key)
       replace_channel_key(replace_token_with_key(path, "%SESSION_KEY%", session_key), channel_key)
+    end
+
+    def replace_webhook_key(path, webhook_key)
+      replace_token_with_key(path, "%WEBHOOK_KEY%", webhook_key)
+    end
+
+    def replace_report_key(path, report_key)
+      replace_token_with_key(path, "%REPORT_KEY%", report_key)
     end
 
     def feedback_query_args(start_date, end_date, use_send_time, scope)

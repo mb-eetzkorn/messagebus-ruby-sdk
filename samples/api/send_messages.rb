@@ -1,4 +1,4 @@
-# Copyright 2013 Message Bus, Inc.
+# Copyright 2014 Message Bus
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -15,7 +15,7 @@
 require 'messagebus-sdk/api_client'
 
 api_key="12345678934628542E2599F7ED712345"
-api_host="https://api-v4.messagebus.com"
+api_host="https://api.messagebus.com"
 
 client = MessagebusApiClient.new(api_key, api_host)
 
@@ -26,6 +26,7 @@ messages = [
      :toName => 'Bobby Flay',
      :fromEmail => 'alice@example.com',
      :fromName => 'Alice Waters',
+     :returnPath => 'bounces@bounces.example.com',
      :subject => 'Sample Message with HTML body.',
      :customHeaders => {"x-messagebus-sdk"=>"ruby-sdk"},
      :plaintextBody => 'This is the plain text body.',
@@ -35,6 +36,7 @@ messages = [
      :toName => 'Jamie Lauren',
      :fromEmail => 'alice@example.com',
      :fromName => 'Alice Waters',
+     :returnPath => 'bounces@bounces.example.com',
      :subject => 'Simple Example with no HTML body.',
      :customHeaders => {"x-messagebus-sdk"=>"ruby-sdk"},
      :plaintextBody => 'This is the plaintext example.',

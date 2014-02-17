@@ -1,4 +1,4 @@
-# Copyright 2013 Message Bus, Inc.
+# Copyright 2014 Message Bus
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -58,11 +58,11 @@ class MessagebusApiClient < MessagebusSDK::MessagebusBase
 
   def define_rest_endpoints
     {
-      :message_emails_send => "/api/v4/message/email/send",
-      :channels => "/api/v4/channels",
-      :channel_config => "/api/v4/channel/%CHANNEL_KEY%/config",
-      :channel_sessions => "/api/v4/channel/%CHANNEL_KEY%/sessions",
-      :channel_session_rename => "/api/v4/channel/%CHANNEL_KEY%/session/%SESSION_KEY%/rename"
+      :message_emails_send => "/v5/messages/send",
+      :channels => "/v5/channels",
+      :channel_config => "/v5/channel/%CHANNEL_KEY%/config",
+      :channel_sessions => "/v5/channel/%CHANNEL_KEY%/sessions",
+      :channel_session_rename => "/v5/channel/%CHANNEL_KEY%/session/%SESSION_KEY%/rename"
     }
   end
 end

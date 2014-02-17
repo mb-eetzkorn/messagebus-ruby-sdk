@@ -18,7 +18,7 @@ describe MessagebusActionMailerClient do
       session_key = "DEFAULT"
       message = MessageBusActionMailerTest.new_message(to_email, session_key)
 
-      FakeWeb.register_uri(:post, "#{API_URL}/message/email/send", :body => json_valid_send)
+      FakeWeb.register_uri(:post, "#{API_URL}/messages/send", :body => json_valid_send)
       message.deliver
 
       message_body = JSON.parse(FakeWeb.last_request.body)

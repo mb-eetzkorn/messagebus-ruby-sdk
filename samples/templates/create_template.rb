@@ -1,4 +1,4 @@
-# Copyright 2013 Message Bus, Inc.
+# Copyright 2014 Message Bus
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -15,7 +15,7 @@
 require 'messagebus-sdk/template_client'
 
 api_key = "12345678934628542E2599F7ED712345"
-api_host = "https://templates-v4-jy01-prod.messagebus.com"
+api_host = "https://templates.messagebus.com"
 
 client = MessagebusTemplateClient.new(api_key, api_host)
 
