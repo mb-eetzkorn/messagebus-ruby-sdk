@@ -58,7 +58,7 @@ class MessagebusTemplateClient < MessagebusSDK::MessagebusBase
       :template_version => "/v5/templates/version",
       :template => "/v5/template/%TEMPLATE_KEY%",
       :templates => "/v5/templates",
-      :templates_send => "/v5/templates/email/send"
+      :templates_send => "/v5/templates/send"
     }
   end
 

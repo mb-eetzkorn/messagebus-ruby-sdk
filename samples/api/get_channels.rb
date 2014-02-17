@@ -23,7 +23,7 @@ begin
   channels = client.channels
   if channels[:statusCode] == 200
     puts "Successfully fetched channels"
-    channels[:results].each do |channel|
+    channels[:channels].each do |channel|
       puts "Channel Name: #{channel[:channelName]} Channel Key: #{channel[:channelKey]}"
     end
   end
