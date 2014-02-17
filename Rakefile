@@ -6,3 +6,5 @@ RSpec::Core::RakeTask.new(:spec) do |task|
   task.rspec_opts = '-c -f d'
 end
 task :default => :spec
+
+
