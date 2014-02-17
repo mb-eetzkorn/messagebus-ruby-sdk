@@ -26,7 +26,7 @@ describe MessagebusActionMailerClient do
       message_params["toName"].should == ""
       message_params["toEmail"].should == to_email
       message_params["sessionKey"].should == "DEFAULT"
-      message_params["customHeaders"].should == {"envelope-sender"=>"bounce@bounce.example.com"}
+      message_params["returnPath"].should == "bounce@bounce.example.com"
     end
 
     it "works with from with nice name in address" do
@@ -61,7 +61,7 @@ describe MessagebusActionMailerClient do
       message_params["toName"].should == ""
       message_params["toEmail"].should == to_email
       message_params["sessionKey"].should == "DEFAULT"
-      message_params["customHeaders"]["envelope-sender"].should == "bounce@bounce.example.com"
+      message_params["returnPath"].should == "bounce@bounce.example.com"
       message_params["customHeaders"]["bcc"].should == "goodbye@example.com"
       message_params["customHeaders"]["x-header-a"].should == "header1"
       message_params["customHeaders"]["x-tracking"].should == "1234"

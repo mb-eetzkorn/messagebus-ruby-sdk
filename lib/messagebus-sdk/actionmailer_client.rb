@@ -23,7 +23,7 @@ class MessagebusActionMailerClient < MessagebusApiClient
 
   def deliver!(message)
     #minimum required headers
-    if message.to.first.nil? ||message.subject.nil? || message.from.first.nil? then
+    if message.to.first.nil? ||message.subject.nil? || message.from.first.nil?  || message.return_path.nil? then
       raise "Messagebus API error=Missing required header: :toEmail => #{message.to.first} :subject => #{message.subject} :fromEmail => #{message.from.first}"
     end
 
@@ -41,7 +41,6 @@ class MessagebusActionMailerClient < MessagebusApiClient
 
     custom_headers = {}
 
-    custom_headers["envelope-sender"] = message.return_path if !message.return_path.nil?
     custom_headers["bcc"] = message.bcc[0] if !message.bcc.nil?
 
     session_key = DEFAULT
@@ -61,6 +60,7 @@ class MessagebusActionMailerClient < MessagebusApiClient
       :subject => message.subject,
       :fromEmail => from_email,
       :fromName => from_name,
+      :returnPath => message.return_path,
       :sessionKey => session_key,
       :customHeaders => custom_headers
     }
