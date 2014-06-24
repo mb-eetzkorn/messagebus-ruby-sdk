@@ -13,7 +13,7 @@
 # under the License.
 
 module MessagebusSDK
-  VERSION = "5.0.2"
+  VERSION = "5.0.3"
 
   class Info
     @@ClientVersion = MessagebusSDK::VERSION

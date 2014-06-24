@@ -51,7 +51,6 @@ describe MessagebusReportsClient do
       format = MessagebusReportsClient::FORMAT_CSV
 
       post_data = {:reportType => report_type,
-                   :scope => scope,
                    :format => format,
                    :startDate => start_date_str,
                    :endDate => end_date_str,
@@ -64,6 +63,11 @@ describe MessagebusReportsClient do
 
       response = client.create_report(report_type, start_date_str, end_date_str, scope, format)
       FakeWeb.last_request.body.should == post_data.to_json
+
+      post_data[:channelKey] = 'A'
+      post_data[:sessionKey] = 'B'
+      response = client.create_report(report_type, start_date_str, end_date_str, scope, format, 'A', 'B')
+      FakeWeb.last_request.body.should == post_data.to_json
     end
 
     it "#create_feedback_report" do
@@ -73,17 +77,24 @@ describe MessagebusReportsClient do
       format = MessagebusReportsClient::FORMAT_CSV
 
       post_data = {:reportType => MessagebusReportsClient::REPORT_TYPE_FEEDBACK,
-                   :scope => scope,
                    :format => format,
                    :startDate => start_date_str,
                    :endDate => end_date_str,
                    :channelKey => '',
-                   :sessionKey => ''
+                   :sessionKey => '',
+                   :scope => scope,
+                   :useSendTime => true
                   }
 
       expected_request="#{API_URL}/reports"
       FakeWeb.register_uri(:post, expected_request, :body => json_report_request_response201)
       response = client.create_feedback_report(start_date_str, end_date_str, scope, format)
+      FakeWeb.last_request.body.should == post_data.to_json
+
+      post_data[:channelKey] = 'A'
+      post_data[:sessionKey] = 'B'
+      post_data[:useSendTime] = false
+      response = client.create_feedback_report(start_date_str, end_date_str, scope, format, 'A', 'B', false)
       FakeWeb.last_request.body.should == post_data.to_json
     end
 
@@ -93,7 +104,6 @@ describe MessagebusReportsClient do
       format = MessagebusReportsClient::FORMAT_CSV
 
       post_data = {:reportType => MessagebusReportsClient::REPORT_TYPE_STATS,
-                   :scope => MessagebusReportsClient::SCOPE_ALL,
                    :format => format,
                    :startDate => start_date_str,
                    :endDate => end_date_str,
@@ -106,6 +116,10 @@ describe MessagebusReportsClient do
       response = client.create_stats_report(start_date_str, end_date_str, format)
       FakeWeb.last_request.body.should == post_data.to_json
 
+      post_data[:channelKey] = 'A'
+      post_data[:sessionKey] = 'B'
+      response = client.create_stats_report(start_date_str, end_date_str, format, 'A', 'B')
+      FakeWeb.last_request.body.should == post_data.to_json
     end
 
     it "#create_blocklist_report" do
@@ -115,17 +129,22 @@ describe MessagebusReportsClient do
       format = MessagebusReportsClient::FORMAT_CSV
 
       post_data = {:reportType => MessagebusReportsClient::REPORT_TYPE_BLOCKLIST,
-                   :scope => scope,
                    :format => format,
                    :startDate => start_date_str,
                    :endDate => end_date_str,
                    :channelKey => '',
-                   :sessionKey => ''
+                   :sessionKey => '',
+                   :scope => scope
                   }
 
       expected_request="#{API_URL}/reports"
       FakeWeb.register_uri(:post, expected_request, :body => json_report_request_response201)
       response = client.create_blocklist_report(start_date_str, end_date_str, scope, format)
+      FakeWeb.last_request.body.should == post_data.to_json
+
+      post_data[:channelKey] = 'A'
+      post_data[:sessionKey] = 'B'
+      response = client.create_blocklist_report(start_date_str, end_date_str, scope, format, 'A', 'B')
       FakeWeb.last_request.body.should == post_data.to_json
     end
   end

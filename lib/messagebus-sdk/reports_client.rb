@@ -68,29 +68,32 @@ class MessagebusReportsClient < MessagebusSDK::MessagebusBase
     return report_data
   end
 
-  def create_report(report_type, start_date, end_date, scope = 'bounces', format = 'json', channel_key = '', session_key = '')
+  def create_report(report_type, start_date, end_date, scope = nil, format = 'json', channel_key = '', session_key = '', use_send_time = true)
     path = @rest_endpoints[:reports]
     days = 1
     end_date = set_date(end_date, 0)
     start_date = set_date(start_date, days)
 
     post_data = {:reportType => report_type,
-                 :scope => scope,
                  :format => format,
                  :startDate => start_date,
                  :endDate => end_date,
                  :channelKey => channel_key,
                  :sessionKey => session_key
                 }
+
+    post_data[:scope] = scope if (report_type == REPORT_TYPE_FEEDBACK || report_type == REPORT_TYPE_BLOCKLIST)
+    post_data[:useSendTime] = use_send_time if report_type == REPORT_TYPE_FEEDBACK
+
     make_api_request(path, HTTP_POST, post_data.to_json)
   end
 
-  def create_feedback_report(start_date, end_date, scope = 'bounces', format = 'json', channel_key = '', session_key = '')
-    create_report(REPORT_TYPE_FEEDBACK, start_date, end_date, scope, format, channel_key, session_key)
+  def create_feedback_report(start_date, end_date, scope = 'bounces', format = 'json', channel_key = '', session_key = '', use_send_time = true)
+    create_report(REPORT_TYPE_FEEDBACK, start_date, end_date, scope, format, channel_key, session_key, use_send_time)
   end
 
   def create_stats_report(start_date, end_date, format = 'json', channel_key = '', session_key = '')
-    create_report(REPORT_TYPE_STATS, start_date, end_date, SCOPE_ALL, format, channel_key, session_key)
+    create_report(REPORT_TYPE_STATS, start_date, end_date, nil, format, channel_key, session_key)
   end
 
   def create_blocklist_report(start_date, end_date, scope = 'blocks', format = 'json', channel_key = '', session_key = '')
