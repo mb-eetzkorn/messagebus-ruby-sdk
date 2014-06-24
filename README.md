@@ -1,4 +1,3 @@
-![MB icon](https://www.messagebus.com/img/logo.png)
 
 ###Message Bus Ruby SDK
 
