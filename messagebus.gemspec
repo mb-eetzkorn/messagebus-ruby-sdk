@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Message Bus"]
   s.email       = ["support@messagebus.com"]
-  s.homepage    = ""
+  s.homepage    = "http://developer.messagebus.com"
   s.summary     = %q{Message Bus SDK}
   s.description = %q{SDK for Message Bus service}
 

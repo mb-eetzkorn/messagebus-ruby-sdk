@@ -67,5 +67,20 @@ describe MessagebusActionMailerClient do
       message_params["customHeaders"]["x-tracking"].should == "1234"
       message_params["customHeaders"]["X-MESSAGEBUS-SESSIONKEY"].should be_nil
     end
+
+    it "ignores bcc is empty array" do
+      to_email = "hello@example.com"
+      session_key = "7215ee9c7d9dc229d2921a40e899ec4a"
+      bcc = []
+      message = MessageBusActionMailerTest.new_message(to_email, session_key, bcc)
+
+      FakeWeb.register_uri(:post, "#{API_URL}/message/email/send", :body => json_valid_send)
+      message.deliver
+
+      message_body = JSON.parse(FakeWeb.last_request.body)
+      message_params = message_body["messages"][0]
+      message_params["sessionKey"].should == session_key
+      message_params["customHeaders"]["bcc"].should be_nil
+    end
   end
 end

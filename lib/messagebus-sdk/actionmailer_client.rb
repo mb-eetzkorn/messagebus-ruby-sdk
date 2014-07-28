@@ -23,8 +23,8 @@ class MessagebusActionMailerClient < MessagebusApiClient
 
   def deliver!(message)
     #minimum required headers
-    if message.to.first.nil? ||message.subject.nil? || message.from.first.nil?  || message.return_path.nil? then
-      raise "Messagebus API error=Missing required header: :toEmail => #{message.to.first} :subject => #{message.subject} :fromEmail => #{message.from.first}"
+    if message.to.nil? ||  message.to.first.nil? || message.subject.nil? || message.from.first.nil?  || message.return_path.nil? then
+      raise "Messagebus API error=Missing required header: :toEmail => #{message.to} :subject => #{message.subject} :fromEmail => #{message.from.first}"
     end
 
     message_from_email = from_email_with_name(message.header[:from].to_s)
@@ -41,15 +41,15 @@ class MessagebusActionMailerClient < MessagebusApiClient
 
     custom_headers = {}
 
-    custom_headers["bcc"] = message.bcc[0] if !message.bcc.nil?
+    custom_headers["bcc"] = message.bcc[0] if !message.bcc.nil? && message.bcc.length != 0
 
     session_key = DEFAULT
     message.header.fields.each do |f|
       if f.name == HEADER_SESSION_KEY
-        session_key = f.value
+        session_key = f.value.to_s
       else
         if f.name =~ /x-.*/i
-          custom_headers[f.name] = f.value
+          custom_headers[f.name] = f.value.to_s
         end
       end
     end
