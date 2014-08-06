@@ -26,6 +26,7 @@ module MessagebusSDK
     SCOPE_ALL = 'all'
     TRUE_VALUE = 'true'
     MAX_TEMPLATE_MESSAGES = 25
+    HTTP_READ_TIMEOUT = 60
 
     HTTP_GET = "GET"
     HTTP_POST = "POST"
@@ -35,6 +36,8 @@ module MessagebusSDK
     def initialize(api_key, api_endpoint = DEFAULT_API_ENDPOINT)
       @api_endpoint = api_endpoint
       @api_key = api_key
+      @http = nil
+      @http_read_timeout = HTTP_READ_TIMEOUT
       init_http_connection(@api_endpoint)
 
       @results = base_response_params
@@ -59,6 +62,12 @@ module MessagebusSDK
       time.strftime("%Y-%m-%dT%H:%M:%SZ")
     end
 
+    def read_timeout(s)
+      if s > 0 and s < 600
+        @http_read_timeout = s
+      end
+    end
+
     private
 
     def init_http_connection(target_server)
@@ -67,9 +76,7 @@ module MessagebusSDK
       end
       @last_init_time = Time.now.utc
       endpoint_url = URI.parse(target_server)
-      @http = Net::HTTP.new(endpoint_url.host, endpoint_url.port)
-      @http.use_ssl = true
-      @http.read_timeout = 300
+      @http = Net::HTTP.start(endpoint_url.host, endpoint_url.port, {:use_ssl => true, :read_timeout => @http_read_timeout})
       @http
     end
 

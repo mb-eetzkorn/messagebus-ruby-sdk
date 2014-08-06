@@ -54,6 +54,17 @@ describe MessagebusSDK::MessagebusBase do
     end
   end
 
+  describe "http read timeout" do
+    it "assigns value" do
+      client = MessagebusSDK::MessagebusBase.new(@api_key)
+      client.read_timeout(0)
+      client.instance_variable_get(:@http_read_timeout).should == 60
+
+      client.read_timeout(10)
+      client.instance_variable_get(:@http_read_timeout).should == 10
+    end
+  end
+
   # TODO http testing for correct VERB
   describe "#make_api_request" do
     before do
