@@ -1,3 +1,4 @@
+![MB icon](http://developer.messagebus.com/assets/mb-logo-env@2x.png)
 
 ###Message Bus Ruby SDK
 
