@@ -31,6 +31,12 @@ class MessagebusTemplateClient < MessagebusSDK::MessagebusBase
     template_params = base_template_params.merge!(params)
     make_api_request(path, HTTP_POST, template_params.to_json)
   end
+  
+  def update_template(params, template_key)
+    path = replace_token_with_key(@rest_endpoints[:template], "%TEMPLATE_KEY%", template_key)
+    template_params = base_template_params.merge!(params)
+    make_api_request(path, HTTP_PUT, template_params.to_json)
+  end
 
   def get_template(template_key)
     path = replace_token_with_key(@rest_endpoints[:template], "%TEMPLATE_KEY%", template_key)
